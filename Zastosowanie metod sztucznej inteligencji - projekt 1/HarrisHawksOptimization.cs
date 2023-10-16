@@ -132,6 +132,17 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                         // obliczenia dla kolejnych iteracji caly czas kozystaja z poprzednich wartosci czyli X(t)
                         for (int j1 = 0; j1 < D; j1++)
                         {
+                            if (newX[j1] < limitX1[j1])
+                            {
+                                // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                newX[j1] = limitX1[j1];
+                            }
+                            if (newX[j1] > limitX2[j1])
+                            {
+                                // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                newX[j1] = limitX2[j1];
+                            }
+
                             populationX1_tmp[hawk, j1] = newX[j1];
                         }
                     }
@@ -154,6 +165,17 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             }
                             for (int j1 = 0; j1 < D; j1++)
                             {
+                                if (newX[j1] < limitX1[j1])
+                                {
+                                    // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                    newX[j1] = limitX1[j1];
+                                }
+                                if (newX[j1] > limitX2[j1])
+                                {
+                                    // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                    newX[j1] = limitX2[j1];
+                                }
+
                                 populationX1_tmp[hawk, j1] = newX[j1];
                             }
 
@@ -167,6 +189,17 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             }
                             for (int j1 = 0; j1 < D; j1++)
                             {
+                                if (newX[j1] < limitX1[j1])
+                                {
+                                    // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                    newX[j1] = limitX1[j1];
+                                }
+                                if (newX[j1] > limitX2[j1])
+                                {
+                                    // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                    newX[j1] = limitX2[j1];
+                                }
+
                                 populationX1_tmp[hawk, j1] = newX[j1];
                             }
                         }
@@ -201,6 +234,16 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
+                                    if (Y[j1] < limitX1[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                        Y[j1] = limitX1[j1];
+                                    }
+                                    if (Y[j1] > limitX2[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                        Y[j1] = limitX2[j1];
+                                    }
                                     populationX1_tmp[hawk, j1] = Y[j1];
                                 }
                             }
@@ -208,6 +251,17 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
+                                    if (Z[j1] < limitX1[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                        Z[j1] = limitX1[j1];
+                                    }
+                                    if (Z[j1] > limitX2[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                        Z[j1] = limitX2[j1];
+                                    }
+
                                     populationX1_tmp[hawk, j1] = Z[j1];
                                 }
                             }
@@ -246,6 +300,18 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
+
+                                    if (Y[j1] < limitX1[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                        Y[j1] = limitX1[j1];
+                                    }
+                                    if (Y[j1] > limitX2[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                        Y[j1] = limitX2[j1];
+                                    }
+
                                     populationX1_tmp[hawk, j1] = Y[j1];
                                 }
                             }
@@ -253,6 +319,18 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
+
+                                    if (Z[j1] < limitX1[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                        Z[j1] = limitX1[j1];
+                                    }
+                                    if (Z[j1] > limitX2[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                        Z[j1] = limitX2[j1];
+                                    }
+
                                     populationX1_tmp[hawk, j1] = Z[j1];
                                 }
                             }
