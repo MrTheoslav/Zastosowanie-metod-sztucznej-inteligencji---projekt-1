@@ -7,9 +7,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
-    delegate double Funkcja1(params double[] x);
+    public delegate double Funkcja1(params double[] x);
     
-    class HarrisHawks : IOptimizationAlgorithm
+    public class HarrisHawks : IOptimizationAlgorithm
     {
         Model _model = new Model();
         Funkcja1 funkcja1 { get; set; }
