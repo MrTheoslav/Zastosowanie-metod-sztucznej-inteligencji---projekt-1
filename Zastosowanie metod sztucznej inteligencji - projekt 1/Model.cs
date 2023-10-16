@@ -25,22 +25,22 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         }
 
 
-        public double[] AveragePosition(double[,] array1)
+        public static double[] AveragePosition(double[,] array1)
         {
-            int len = array1.GetLength(1);
-            double[] avgX = new double[len];
+            int kol = array1.GetLength(1);
+            int rows = array1.GetLength(0);
+            double[] avgX = new double[kol];
 
-            for (int ind = 0; ind < array1.Length; ind++)
+            for (int ind = 0; ind < kol; ind++)
             {
-                for (int ind2 = 0; ind2 < len; ind2++)
+                for (int ind2 = 0; ind2 < rows; ind2++)
                 {
-                    avgX[ind2] += array1[ind, ind2];
+                    avgX[ind] += array1[ind2, ind];
                 }
             }
-            double ar = array1.Length;
-            for (int i = 0; i < array1.Length; i++)
+            for (int i = 0; i < kol; i++)
             {
-                avgX[i] /= array1.Length;
+                avgX[i] /= rows;
             }
             return avgX;
         }
