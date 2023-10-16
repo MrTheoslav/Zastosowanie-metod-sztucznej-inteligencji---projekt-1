@@ -8,20 +8,25 @@ using static System.Net.Mime.MediaTypeNames;
 namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
     delegate double Funkcja1(params double[] x);
-    
+
     class HarrisHawks : IOptimizationAlgorithm
     {
         Model _model = new Model();
-        Funkcja1 funkcja1 { get; set; }
+        private Funkcja1 funkcja2 { get; set; }
+        private int N { get; set; }
 
+        private double [] limitX1 { get; set; }
+        private double [] limitX2 { get; set; }
+        private int T { get; set; }
+        private int D { get; set; }
         public HarrisHawks(Funkcja1 _funkcja2, int _N, double[] _limitX1, double[] _limitX2, int _T, int _D)
         {
-            HHOAlgorithm(_funkcja2, _N, _limitX1, _limitX2, _T, _D);
             // funkcja1 jest funkcja dla ktorej nalezy znalezc wartosc minimalna
             // N jest liczba jastrzebi
             // limitX1/2 i limitY1/2 oznaczają dziedzine z zakresu ktorej losowane sa pozycje jastrzebi
             // T oznacza maksymalna liczbe iteracji
-           
+
+
 
         }
         public double LF()
@@ -37,7 +42,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             double result = 0.01 * u * delta / Math.Pow(Math.Abs(v), (1 / beta));
             return result;
         }
-        public double[] HHOAlgorithm(Funkcja1 funkcja2, int N, double[] limitX1, double[] limitX2, int T, int D)
+        public double Solve()
         {
             Random rnd = new Random();
             double[] xRabbit = new double[D];
@@ -349,7 +354,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                 }
             }
 
-            return xRabbit;
+            return funkcja2(xRabbit);
         }
 
 
@@ -363,14 +368,8 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         public double[] XBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public double FBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int NumberOfEvaluationFitnessFunction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string HarrisHawksOptimization { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public double Solve()
-        {
-            
-
-            throw new NotImplementedException();
-        }
+        
 
 
     }
