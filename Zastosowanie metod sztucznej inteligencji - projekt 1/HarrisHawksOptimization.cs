@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
     delegate double Funkcja1(params double[] x);
-
+    
     class HarrisHawks : IOptimizationAlgorithm
     {
         Model _model = new Model();
         Funkcja1 funkcja1 { get; set; }
+
 
         public HarrisHawks(Funkcja1 _funkcja2, int _N, double _limitX1, double _limitX2, int _T, int _D)
         {
@@ -20,8 +22,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             // N jest liczba jastrzebi
             // limitX1/2 i limitY1/2 oznaczają dziedzine z zakresu ktorej losowane sa pozycje jastrzebi
             // T oznacza maksymalna liczbe iteracji
-
-
+           
 
         }
         public double LF()
@@ -279,6 +280,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         public double[] XBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public double FBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int NumberOfEvaluationFitnessFunction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string HarrisHawksOptimization { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public double Solve()
         {
