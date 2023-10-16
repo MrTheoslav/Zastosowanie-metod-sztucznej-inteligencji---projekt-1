@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hawks //Zastosowanie_metod_sztucznej_inteligencji___projekt_1
+namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
 
     delegate double Funkcja1(params double[] x);
