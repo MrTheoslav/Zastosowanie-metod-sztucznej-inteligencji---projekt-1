@@ -10,7 +10,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
     public interface IOptimizationAlgorithm
     {
-        string HarrisHawksOptimization { get; set; }
+        string Name { get; set; }
 
         double Solve();
 
