@@ -156,7 +156,6 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 populationX1_tmp[hawk, j1] = newX[j1];
                             }
-                            
 
                         }
                         else if (r >= 0.5 && Math.Abs(E) < 0.5)
