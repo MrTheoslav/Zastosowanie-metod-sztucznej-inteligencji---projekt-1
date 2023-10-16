@@ -152,6 +152,10 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 newX[i3] = xRabbit[i3] - populationX[hawk, i3] - E * Math.Abs(J * xRabbit[i3] - populationX[hawk, i3]);
                             }
+                            for (int j1 = 0; j1 < D; j1++)
+                            {
+                                populationX1_tmp[hawk, j1] = newX[j1];
+                            }
                             
 
                         }
@@ -162,7 +166,10 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 newX[i3] = xRabbit[i3] - E * Math.Abs(xRabbit[i3] - populationX[hawk, i3]);
                             }
-
+                            for (int j1 = 0; j1 < D; j1++)
+                            {
+                                populationX1_tmp[hawk, j1] = newX[j1];
+                            }
                         }
                         else if (r < 0.5 && Math.Abs(E) >= 0.5)
                         {
