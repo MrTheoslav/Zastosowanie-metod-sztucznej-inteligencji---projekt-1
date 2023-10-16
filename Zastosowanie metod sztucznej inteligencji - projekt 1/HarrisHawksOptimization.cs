@@ -47,8 +47,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         {
             Random rnd = new Random();
             double beta = 1.5;
-            double gamma = 1;
-            double delta = Math.Pow((((gamma*(1+beta))*Math.Sin(Math.PI*beta/2.0))) / (gamma*((1+beta)/2)*beta*Math.Pow(2, ((beta-1)/2))), (1/beta));
+            double delta = Math.Pow((((alglib.gammafunction(1+beta))*Math.Sin(Math.PI*beta/2.0))) / (alglib.gammafunction((1+beta)/2)*beta*Math.Pow(2, ((beta-1)/2))), (1/beta));
 
             double u = rnd.NextDouble();
             double v = rnd.NextDouble();
