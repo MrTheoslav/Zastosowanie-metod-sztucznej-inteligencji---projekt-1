@@ -258,7 +258,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                 }
 
                 for (int hawkNum = 0; hawkNum < N; hawkNum++) {
-                    for (int ind = 0; ind < D)
+                    for (int ind = 0; ind < D; D++)
                     {
                         populationX[hawkNum, ind] = populationX1_tmp[hawkNum, ind];
                     }
