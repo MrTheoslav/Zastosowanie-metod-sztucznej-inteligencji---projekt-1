@@ -13,7 +13,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         Model _model = new Model();
         Funkcja1 funkcja1 { get; set; }
 
-        public HarrisHawks(Funkcja1 _funkcja2, int _N, double _limitX1, double _limitX2, int _T, int _D)
+        public HarrisHawks(Funkcja1 _funkcja2, int _N, double[] _limitX1, double[] _limitX2, int _T, int _D)
         {
             HHOAlgorithm(_funkcja2, _N, _limitX1, _limitX2, _T, _D);
             // funkcja1 jest funkcja dla ktorej nalezy znalezc wartosc minimalna
@@ -37,7 +37,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             double result = 0.01 * u * delta / Math.Pow(Math.Abs(v), (1 / beta));
             return result;
         }
-        public double[] HHOAlgorithm(Funkcja1 funkcja2, int N, double limitX1, double limitX2, int T, int D)
+        public double[] HHOAlgorithm(Funkcja1 funkcja2, int N, double[] limitX1, double[] limitX2, int T, int D)
         {
             Random rnd = new Random();
             double[] xRabbit = new double[D];
@@ -52,7 +52,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             {
                 for (int i2 = 0; i2 < D; i2++)
                 {
-                    populationX[i, i2] = (rnd.NextDouble() * (limitX2 - limitX1)) + limitX1;
+                    populationX[i, i2] = (rnd.NextDouble() * (limitX2[i2] - limitX1[i2])) + limitX1[i2];
                 }
             }
 
@@ -123,7 +123,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                         {
                             for (int i3 = 0; i3 < D; i3++)
                             {
-                                newX[i3] = (xRabbit[i3] - _model.AveragePosition(populationX)[i3]) - r3 * (limitX1 + r4 * (limitX2 - limitX1));
+                                newX[i3] = (xRabbit[i3] - _model.AveragePosition(populationX)[i3]) - r3 * (limitX1[i3] + r4 * (limitX2[i3] - limitX1[i3]));
                             }
 
                         }
@@ -181,7 +181,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             double[] S = new double[D];
                             for (int i2 = 0; i2 < D; i2++)
                             {
-                                S[i2] = (rnd.NextDouble() * (limitX2 - limitX1)) + limitX1;
+                                S[i2] = (rnd.NextDouble() * (limitX2[i2] - limitX1[i2])) + limitX1[i2];
                             }
 
                             double[] Z = new double[D];
@@ -226,7 +226,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             double[] S = new double[D];
                             for (int i2 = 0; i2 < D; i2++)
                             {
-                                S[i2] = (rnd.NextDouble() * (limitX2 - limitX1)) + limitX1;
+                                S[i2] = (rnd.NextDouble() * (limitX2[i2] - limitX1[i2])) + limitX1[i2];
                             }
                             double[] Z = new double[D];
                             for (int i3 = 0; i3 < D; i3++)
