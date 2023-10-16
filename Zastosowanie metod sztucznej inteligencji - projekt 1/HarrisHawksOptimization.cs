@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
+namespace Hawks //Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
+
     delegate double Funkcja1(params double[] x);
 
     class HarrisHawks : IOptimizationAlgorithm
@@ -19,8 +19,22 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         private double [] limitX2 { get; set; }
         private int T { get; set; }
         private int D { get; set; }
+
+
+        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double[] XBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double FBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int NumberOfEvaluationFitnessFunction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+
         public HarrisHawks(Funkcja1 _funkcja2, int _N, double[] _limitX1, double[] _limitX2, int _T, int _D)
         {
+            this.funkcja2 = _funkcja2;
+            this.N = _N;
+            this.limitX1 = _limitX1;
+            this.limitX2 = _limitX2;
+            this.T = _T;
+            this.D = _D;
             // funkcja1 jest funkcja dla ktorej nalezy znalezc wartosc minimalna
             // N jest liczba jastrzebi
             // limitX1/2 i limitY1/2 oznaczają dziedzine z zakresu ktorej losowane sa pozycje jastrzebi
@@ -354,6 +368,11 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                 }
             }
 
+            for (int a = 0; a < D; a++)
+            {
+                XBest[a] = xRabbit[a];
+            }
+
             return funkcja2(xRabbit);
         }
 
@@ -364,10 +383,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
 
 
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public double[] XBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public double FBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int NumberOfEvaluationFitnessFunction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        
 
         
 
