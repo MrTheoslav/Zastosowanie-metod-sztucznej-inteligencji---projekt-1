@@ -91,20 +91,13 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             return Math.Pow(x * x + y - 11, 2) + Math.Pow(x + y * y - 7, 2);
 
         }
-
-
-        public double[] Solve()
+        static void Main(string[] args)
         {
             Double[] X = { 2.3, 4.3 };
             Double[] Y = { 2.3, 4.3 };
-            HarrisHawks harrisHawks = new HarrisHawks(rastriginFunction, 10,X,Y, 20, 8);
-            return harrisHawks.HarrisHawksOptimization();
-        }
+            HarrisHawks harrisHawks = new HarrisHawks(rastriginFunction, 10, X, Y, 20, 8);
+            Console.WriteLine(harrisHawks.Solve());
 
-        static void Main(string[] args)
-        {
-
-            
         }
 
     }
