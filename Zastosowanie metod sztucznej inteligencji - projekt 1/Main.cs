@@ -1,59 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
     
-    public class TestFunction
+    public class Main
     {
+        delegate double Funkcja1(params double[] X);
+        Funkcja1 f;
 
-        public static double rastriginFunction()
+        public static double rastriginFunction(params double[] X)
         {
-            int dimension = 2;
-            double[] x = new double[dimension];
-
-            Random random = new Random();
-            for(int i =0; i < dimension; i++)
-            {
-                x[i] = (random.NextDouble()*10.24)-5.12;
-            }
-
+                  
             double sum = 0;
-
-            for (int i=0; i < dimension;i++)
+            int D = X.Length;
+            for (int i=0; i < D;i++)
             {
-                double xi = x[i];
+                double xi = X[i];
                 sum += xi * xi - 10 * Math.Cos(2 * Math.PI * xi);
             }
 
-            return 10 * dimension + sum;
+            return 10 * D + sum;
 
         }
 
 
         
-        public static double rosenbrockFunction()
+        public static double rosenbrockFunction(params double[] X)
         {
 
-            int dimension = 2;
-            double[] x = new double[dimension];
-
-            Random random = new Random();
-            for (int i = 0; i < dimension; i++)
-            {
-                x[i] = random.NextDouble() * 10; //can be changed
-            }
-
             double sum = 0;
-
-            for (int i =0; i<dimension; i++)
+            int D = X.Length;
+            for (int i =0; i<D; i++)
             {
 
-                double xi = x[i];
-                double xOneMore = x[i + 1];
+                double xi = X[i];
+                double xOneMore = X[i+1];
                 sum += 100 * Math.Pow(xOneMore - xi * xi, 2) + Math.Pow(1 - xi, 2);
             }
 
@@ -61,22 +47,14 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
         }
 
-        public static double sphereFunction()
+        public static double sphereFunction(params double[] X)
         {
-            int dimension = 2;
-            double[] x = new double[dimension];
-
-            Random random = new Random();
-            for (int i = 0; i < dimension; i++)
-            {
-                x[i] = random.NextDouble() * 7; //can be changed
-            }
-
+    
             double sum = 0;
-
-            for (int i = 0; i < dimension; i++)
+            int D = X.Length;
+            for (int i = 0; i < D; i++)
             {
-                double xi = x[i];
+                double xi = X[i];
                 sum += xi * xi;
             }
 
@@ -84,32 +62,32 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         }
 
 
-        public static double bealeFunction()
+        public static double bealeFunction(params double[] X)
         {
-            Random random = new Random();
-            double x = (random.NextDouble() * 9) - 4.5;
-            double y = (random.NextDouble() * 9) - 4.5;
+
+            double x = X[0];
+            double y = X[1];
 
             return Math.Pow(1.5 - x + x * y, 2) + Math.Pow(2.25 - x + x * y * y, 2) + Math.Pow(2.625 - x + x * y * y * y, 2);
 
         }
 
-        public static double bukinFunctionN6()
+        public static double bukinFunctionN6(params double[] X)
         {
-            Random random = new Random();
-            double x = (random.NextDouble() *3 ) -9;
-            double y = (random.NextDouble() * 6) - 3;
+
+            double x = X[0];
+            double y = X[1];
 
             return 100 * Math.Sqrt(Math.Abs(y - 0.01 * x * x)) + 0.01 * Math.Abs(x + 10);
 
         }
 
 
-        public static double himmelblauFunctionN6()
+        public static double himmelblauFunctionN6(params double[] X)
         {
-            Random random = new Random();
-            double x = (random.NextDouble() * 10) - 5;
-            double y = (random.NextDouble() * 10) - 5;
+
+            double x = X[0];
+            double y = X[1];
 
 
             return Math.Pow(x * x + y - 11, 2) + Math.Pow(x + y * y - 7, 2);

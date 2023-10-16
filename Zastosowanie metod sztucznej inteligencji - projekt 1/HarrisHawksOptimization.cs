@@ -14,8 +14,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         Model _model = new Model();
         Funkcja1 funkcja1 { get; set; }
 
-
-        public HarrisHawks(Funkcja1 _funkcja2, int _N, double _limitX1, double _limitX2, int _T, int _D)
+        public HarrisHawks(Funkcja1 _funkcja2, int _N, double[] _limitX1, double[] _limitX2, int _T, int _D)
         {
             HHOAlgorithm(_funkcja2, _N, _limitX1, _limitX2, _T, _D);
             // funkcja1 jest funkcja dla ktorej nalezy znalezc wartosc minimalna
@@ -38,7 +37,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             double result = 0.01 * u * delta / Math.Pow(Math.Abs(v), (1 / beta));
             return result;
         }
-        public double[] HHOAlgorithm(Funkcja1 funkcja2, int N, double limitX1, double limitX2, int T, int D)
+        public double[] HHOAlgorithm(Funkcja1 funkcja2, int N, double[] limitX1, double[] limitX2, int T, int D)
         {
             Random rnd = new Random();
             double[] xRabbit = new double[D];
@@ -53,7 +52,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             {
                 for (int i2 = 0; i2 < D; i2++)
                 {
-                    populationX[i, i2] = (rnd.NextDouble() * (limitX2 - limitX1)) + limitX1;
+                    populationX[i, i2] = (rnd.NextDouble() * (limitX2[i2] - limitX1[i2])) + limitX1[i2];
                 }
             }
 
@@ -124,7 +123,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                         {
                             for (int i3 = 0; i3 < D; i3++)
                             {
-                                newX[i3] = (xRabbit[i3] - _model.AveragePosition(populationX)[i3]) - r3 * (limitX1 + r4 * (limitX2 - limitX1));
+                                newX[i3] = (xRabbit[i3] - _model.AveragePosition(populationX)[i3]) - r3 * (limitX1[i3] + r4 * (limitX2[i3] - limitX1[i3]));
                             }
 
                         }
@@ -133,6 +132,17 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                         // obliczenia dla kolejnych iteracji caly czas kozystaja z poprzednich wartosci czyli X(t)
                         for (int j1 = 0; j1 < D; j1++)
                         {
+                            if (newX[j1] < limitX1[j1])
+                            {
+                                // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                newX[j1] = limitX1[j1];
+                            }
+                            if (newX[j1] > limitX2[j1])
+                            {
+                                // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                newX[j1] = limitX2[j1];
+                            }
+
                             populationX1_tmp[hawk, j1] = newX[j1];
                         }
                     }
@@ -153,7 +163,21 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 newX[i3] = xRabbit[i3] - populationX[hawk, i3] - E * Math.Abs(J * xRabbit[i3] - populationX[hawk, i3]);
                             }
-                            
+                            for (int j1 = 0; j1 < D; j1++)
+                            {
+                                if (newX[j1] < limitX1[j1])
+                                {
+                                    // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                    newX[j1] = limitX1[j1];
+                                }
+                                if (newX[j1] > limitX2[j1])
+                                {
+                                    // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                    newX[j1] = limitX2[j1];
+                                }
+
+                                populationX1_tmp[hawk, j1] = newX[j1];
+                            }
 
                         }
                         else if (r >= 0.5 && Math.Abs(E) < 0.5)
@@ -163,7 +187,21 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 newX[i3] = xRabbit[i3] - E * Math.Abs(xRabbit[i3] - populationX[hawk, i3]);
                             }
+                            for (int j1 = 0; j1 < D; j1++)
+                            {
+                                if (newX[j1] < limitX1[j1])
+                                {
+                                    // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                    newX[j1] = limitX1[j1];
+                                }
+                                if (newX[j1] > limitX2[j1])
+                                {
+                                    // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                    newX[j1] = limitX2[j1];
+                                }
 
+                                populationX1_tmp[hawk, j1] = newX[j1];
+                            }
                         }
                         else if (r < 0.5 && Math.Abs(E) >= 0.5)
                         {
@@ -176,7 +214,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             double[] S = new double[D];
                             for (int i2 = 0; i2 < D; i2++)
                             {
-                                S[i2] = (rnd.NextDouble() * (limitX2 - limitX1)) + limitX1;
+                                S[i2] = (rnd.NextDouble() * (limitX2[i2] - limitX1[i2])) + limitX1[i2];
                             }
 
                             double[] Z = new double[D];
@@ -196,6 +234,16 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
+                                    if (Y[j1] < limitX1[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                        Y[j1] = limitX1[j1];
+                                    }
+                                    if (Y[j1] > limitX2[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                        Y[j1] = limitX2[j1];
+                                    }
                                     populationX1_tmp[hawk, j1] = Y[j1];
                                 }
                             }
@@ -203,6 +251,17 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
+                                    if (Z[j1] < limitX1[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                        Z[j1] = limitX1[j1];
+                                    }
+                                    if (Z[j1] > limitX2[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                        Z[j1] = limitX2[j1];
+                                    }
+
                                     populationX1_tmp[hawk, j1] = Z[j1];
                                 }
                             }
@@ -221,7 +280,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             double[] S = new double[D];
                             for (int i2 = 0; i2 < D; i2++)
                             {
-                                S[i2] = (rnd.NextDouble() * (limitX2 - limitX1)) + limitX1;
+                                S[i2] = (rnd.NextDouble() * (limitX2[i2] - limitX1[i2])) + limitX1[i2];
                             }
                             double[] Z = new double[D];
                             for (int i3 = 0; i3 < D; i3++)
@@ -241,6 +300,18 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
+
+                                    if (Y[j1] < limitX1[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                        Y[j1] = limitX1[j1];
+                                    }
+                                    if (Y[j1] > limitX2[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                        Y[j1] = limitX2[j1];
+                                    }
+
                                     populationX1_tmp[hawk, j1] = Y[j1];
                                 }
                             }
@@ -248,6 +319,18 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
+
+                                    if (Z[j1] < limitX1[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (mniejsze)
+                                        Z[j1] = limitX1[j1];
+                                    }
+                                    if (Z[j1] > limitX2[j1])
+                                    {
+                                        // zabezpiecza przed wybieraniem pozycji spoza dziedziny (wieksze)
+                                        Z[j1] = limitX2[j1];
+                                    }
+
                                     populationX1_tmp[hawk, j1] = Z[j1];
                                 }
                             }
