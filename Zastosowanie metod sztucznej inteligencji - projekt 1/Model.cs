@@ -25,7 +25,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         }
 
 
-        public static double[] AveragePosition(double[,] array1)
+        public double[] AveragePosition(double[,] array1)
         {
             int kol = array1.GetLength(1);
             int rows = array1.GetLength(0);
