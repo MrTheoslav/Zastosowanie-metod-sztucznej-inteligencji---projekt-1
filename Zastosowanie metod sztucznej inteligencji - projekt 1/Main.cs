@@ -10,8 +10,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
     public class main
     {
-        delegate double Funkcja1(params double[] X);
-        Funkcja1 f;
+      
         
 
         public static double rastriginFunction(params double[] X)
@@ -93,18 +92,18 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         }
 
 
-        public double[] Solve()
-        {
-            Double[] X = { 2.3, 4.3 };
-            Double[] Y = { 2.3, 4.3 };
-            HarrisHawks harrisHawks = new HarrisHawks(rastriginFunction, 10,X,Y, 20, 8);
-            return harrisHawks.HarrisHawksOptimization();
-        }
+     
 
         static void Main(string[] args)
         {
+            Double[] X = { 2.3, 4.3 };
+            Double[] Y = { 2.3, 4.3 };
+            HarrisHawks harrisHawks = new HarrisHawks(rastriginFunction, 3, X, Y, 3, 2);
+            Console.WriteLine(harrisHawks.Solve());
 
-            
+       
+
+
         }
 
     }

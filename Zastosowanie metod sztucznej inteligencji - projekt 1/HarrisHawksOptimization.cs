@@ -9,7 +9,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
     delegate double Funkcja1(params double[] x);
     
-    class HarrisHawks : IOptimizationAlgorithm
+    class HarrisHawks 
     {
         Model _model = new Model();
         private Funkcja1 funkcja2 { get; set; }
@@ -22,7 +22,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
 
         public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public double[] XBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double[] XBest { get; set; }
         public double FBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int NumberOfEvaluationFitnessFunction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -360,7 +360,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                 }
 
                 for (int hawkNum = 0; hawkNum < N; hawkNum++) {
-                    for (int ind = 0; ind < D; D++)
+                    for (int ind = 0; ind < D; ind++)
                     {
                         populationX[hawkNum, ind] = populationX1_tmp[hawkNum, ind];
                     }
