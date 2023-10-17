@@ -8,7 +8,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
 
     delegate double Funkcja1(params double[] x);
-    
+
     class HarrisHawks : IOptimizationAlgorithm
     {
         Model _model = new Model();
@@ -21,10 +21,10 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         private int D { get; set; }
 
 
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public double[] XBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public double FBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int NumberOfEvaluationFitnessFunction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Name { get; set; }
+        public double[] XBest { get; set; }
+        public double FBest { get; set; }
+        public int NumberOfEvaluationFitnessFunction { get; set; }
 
 
         public HarrisHawks(Funkcja1 _funkcja2, int _N, double[] _limitX1, double[] _limitX2, int _T, int _D)
@@ -35,6 +35,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             this.limitX2 = _limitX2;
             this.T = _T;
             this.D = _D;
+            this.XBest = new double[D];
             // funkcja1 jest funkcja dla ktorej nalezy znalezc wartosc minimalna
             // N jest liczba jastrzebi
             // limitX1/2 i limitY1/2 oznaczają dziedzine z zakresu ktorej losowane sa pozycje jastrzebi
@@ -101,6 +102,12 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                     xRabbit[i2] = populationX[rabIndex, i2];
                 }
 
+                Console.Write("Krolik: ");
+                foreach (double krolik in xRabbit)
+                {
+                    Console.Write(krolik);
+                }
+                Console.WriteLine();
 
                 // wykonanie ponizszych instrukcji nastepuje dla kazdego jastrzebia z populacji
                 for (int hawk = 0; hawk < N; hawk++)
