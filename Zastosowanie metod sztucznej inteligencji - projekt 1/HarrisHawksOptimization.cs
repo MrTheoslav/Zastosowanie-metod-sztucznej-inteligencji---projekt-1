@@ -106,6 +106,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                 foreach (double krolik in xRabbit)
                 {
                     Console.Write(krolik);
+                    Console.Write(" ");
                 }
                 Console.WriteLine();
 
