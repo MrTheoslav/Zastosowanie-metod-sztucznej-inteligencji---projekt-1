@@ -12,7 +12,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
     {
         string Name { get; set; }
 
-        double Solve();
+        double[] Solve();
 
         double[] XBest { get; set; }
 

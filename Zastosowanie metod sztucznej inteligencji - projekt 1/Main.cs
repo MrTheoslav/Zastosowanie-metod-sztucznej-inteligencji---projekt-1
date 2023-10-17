@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using MathNet.Numerics.Statistics;
 
 namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
@@ -93,10 +95,83 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         }
         static void Main(string[] args)
         {
-            Double[] X = { 2.3, 4.3 };
-            Double[] Y = { 2.3, 4.3 };
-            HarrisHawks harrisHawks = new HarrisHawks(rastriginFunction, 10, X, Y, 20, 8);
-            Console.WriteLine(harrisHawks.Solve());
+            Double[] X = { -2.3, 4.3 };
+            Double[] Y = { 2.3, -4.3 };
+            HarrisHawks harrisHawks = new HarrisHawks(sphereFunction, 10, X, Y, 20, 2);
+
+            Double[] dataX = new double[10];
+            Double[] dataY = new double[10];
+            Double[] dataF = new double[10];
+
+            for (int y = 0; y < 10; y++)
+            {
+                double[] result = harrisHawks.Solve();
+
+                for (int i = 0; i < result.Length; i++)
+                {
+                    Console.WriteLine(result[i]);
+                    
+
+                }
+
+                dataX[y] = result[0];
+                dataY[y] = result[1];
+                dataF[y] = result[2];
+            }
+
+            double standardDeviationX = Statistics.StandardDeviation(dataX);
+            double meanX = Statistics.Mean(dataX);
+            double standardDeviationY = Statistics.StandardDeviation(dataY);
+            double meanY = Statistics.Mean(dataY);
+            double standardDeviationF = Statistics.StandardDeviation(dataF);
+            double meanF = Statistics.Mean(dataF);
+
+
+
+            double minValue = double.MaxValue;
+            int minIndex = -1;
+
+            for (int i = 0; i < dataF.Length; i++)
+            {
+                if (dataF[i] < minValue)
+                {
+                    minValue = dataF[i];
+                    minIndex = i;
+                }
+            }
+
+           
+
+
+            try
+            {
+                
+                StreamWriter sw = new StreamWriter("C:\\Users\\Pumpel\\Desktop\\wyniki.txt");
+
+                sw.WriteLine("Funkcja testowa: Sphere");
+                sw.WriteLine("Paramter beta: "+ 1.5);
+                sw.WriteLine("Rozmiar populacji: "+10);
+                sw.WriteLine("Liczba iteracji: " +20);
+
+                sw.WriteLine("Odchylenie standardowe poszukiwanych parametrów: " + standardDeviationX+", "+ standardDeviationY);
+                sw.WriteLine("Odchylenie standardowe wartości funkcji celu: " + standardDeviationF);
+
+                sw.WriteLine("Współczynnik zmienności poszukiwanych parametrów: " + (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY));
+                sw.WriteLine("Współczynnik zmienności wartości funkcji celu: " + (standardDeviationF / meanF));
+
+
+                sw.WriteLine("Wartość funkcji celu: " + dataF[minIndex]);
+                sw.WriteLine("Znalezione minimum: " + dataX[minIndex] + ", " + dataY[minIndex]);
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Executing finally block.");
+            }
 
         }
 

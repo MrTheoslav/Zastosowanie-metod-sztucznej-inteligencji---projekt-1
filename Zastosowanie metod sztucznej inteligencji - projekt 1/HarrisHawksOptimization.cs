@@ -8,23 +8,25 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
 
     delegate double Funkcja1(params double[] x);
-    
-    class HarrisHawks 
+
+    class HarrisHawks : IOptimizationAlgorithm
     {
         Model _model = new Model();
         private Funkcja1 funkcja2 { get; set; }
         private int N { get; set; }
 
-        private double [] limitX1 { get; set; }
-        private double [] limitX2 { get; set; }
+        private double[] limitX1 { get; set; }
+        private double[] limitX2 { get; set; }
         private int T { get; set; }
         private int D { get; set; }
 
 
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public double[] XBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public double FBest { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int NumberOfEvaluationFitnessFunction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Name { get; set; }
+        public double[] XBest { get; set; }
+        public double FBest { get; set; }
+        public int NumberOfEvaluationFitnessFunction { get; set; }
+
+        public double[,] Rabbits { get; set; }
 
 
         public HarrisHawks(Funkcja1 _funkcja2, int _N, double[] _limitX1, double[] _limitX2, int _T, int _D)
@@ -35,7 +37,8 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             this.limitX2 = _limitX2;
             this.T = _T;
             this.D = _D;
-            this.XBest = new double[D];
+            this.XBest = new double[D+1];
+            this.Rabbits = new double[T, D];
             // funkcja1 jest funkcja dla ktorej nalezy znalezc wartosc minimalna
             // N jest liczba jastrzebi
             // limitX1/2 i limitY1/2 oznaczają dziedzine z zakresu ktorej losowane sa pozycje jastrzebi
@@ -48,7 +51,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         {
             Random rnd = new Random();
             double beta = 1.5;
-            double delta = Math.Pow((((alglib.gammafunction(1+beta))*Math.Sin(Math.PI*beta/2.0))) / (alglib.gammafunction((1+beta)/2)*beta*Math.Pow(2, ((beta-1)/2))), (1/beta));
+            double delta = Math.Pow((((alglib.gammafunction(1 + beta)) * Math.Sin(Math.PI * beta / 2.0))) / (alglib.gammafunction((1 + beta) / 2) * beta * Math.Pow(2, ((beta - 1) / 2))), (1 / beta));
 
             double u = rnd.NextDouble();
             double v = rnd.NextDouble();
@@ -56,7 +59,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             double result = 0.01 * u * delta / Math.Pow(Math.Abs(v), (1 / beta));
             return result;
         }
-        public double Solve()
+        public double[] Solve()
         {
             Random rnd = new Random();
             double[] xRabbit = new double[D];
@@ -65,7 +68,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             // hawkFitness zawiera wartosci funkcji w punktach, w ktorych znajduja sie jastrzebie
             double[,] populationX = new double[N, D];
             double[] hawkFitness = new double[N];
-            
+
             // uzupelniamy losowymi wspolrzednymi znajdujacymi sie w dziedzinie
             for (int i = 0; i < N; i++)
             {
@@ -75,7 +78,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                 }
             }
 
-            
+
             // kroki iteracji ------------------
             for (int t = 0; t < T; t++)
             {
@@ -273,7 +276,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                     populationX1_tmp[hawk, j1] = Y[j1];
                                 }
                             }
-                            else if(funkcja2(Y) < funkcja2(currentHawk))
+                            else if (funkcja2(Y) < funkcja2(currentHawk))
                             {
                                 for (int j1 = 0; j1 < D; j1++)
                                 {
@@ -367,7 +370,8 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
                 }
 
-                for (int hawkNum = 0; hawkNum < N; hawkNum++) {
+                for (int hawkNum = 0; hawkNum < N; hawkNum++)
+                {
                     for (int ind = 0; ind < D; ind++)
                     {
                         populationX[hawkNum, ind] = populationX1_tmp[hawkNum, ind];
@@ -378,21 +382,27 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             for (int a = 0; a < D; a++)
             {
                 XBest[a] = xRabbit[a];
-            }
 
-            return funkcja2(xRabbit);
+            }
+            XBest[D]=funkcja2(xRabbit);
+
+
+
+            return XBest;
+
+
+
+
+
+
+
+
+
         }
 
 
 
 
-
-
-
-
-        
-
-        
 
 
     }
