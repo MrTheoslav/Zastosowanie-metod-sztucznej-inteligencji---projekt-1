@@ -97,6 +97,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         {
             Double[] X = { -2.3, 4.3 };
             Double[] Y = { 2.3, -4.3 };
+                                                     //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar     
             HarrisHawks harrisHawks = new HarrisHawks(sphereFunction, 10, X, Y, 20, 2);
 
             Double[] dataX = new double[10];
