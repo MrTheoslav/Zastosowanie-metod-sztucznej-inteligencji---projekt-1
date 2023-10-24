@@ -12,7 +12,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
     public class main
     {
-       
+
 
 
         public static double rastriginFunction(params double[] X)
@@ -49,7 +49,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
             double sum = 0;
             int D = X.Length;
-            for (int i = 0; i < D; i++)
+            for (int i = 0; i < D - 1; i++)
             {
 
                 double xi = X[i];
@@ -112,73 +112,73 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             int[] iterationT = { 5, 10, 20, 40, 60, 80, 100 };
             int f = 0;
 
-            foreach(Funkcja1 f1 in functions)
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string fileName = "wyniki.csv";
+            string filePath = Path.Combine(desktopPath, fileName);
+            var table = new List<TableOfResults>();
+
+            foreach (Funkcja1 f1 in functions)
             {
                 Double[] X = { FunctionsX[f, 0], FunctionsX[f, 1] };
                 Double[] Y = { FunctionsY[f, 0], FunctionsY[f, 1] };
                 f++;
 
-               foreach(int N in SizeN)
-                { 
+                foreach (int N in SizeN)
+                {
 
-                    foreach(int T in iterationT)
-                    { 
+                    foreach (int T in iterationT)
+                    {
 
-                        foreach(Double B in Beta)
-                        { 
+                        foreach (Double B in Beta)
+                        {
 
 
 
                             //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar , beta    
                             HarrisHawks harrisHawks = new HarrisHawks(f1, N, X, Y, T, 2, B);
 
-                        Double[] dataX = new double[10];
-                        Double[] dataY = new double[10];
-                        Double[] dataF = new double[10];
+                            Double[] dataX = new double[10];
+                            Double[] dataY = new double[10];
+                            Double[] dataF = new double[10];
 
-                        for (int y = 0; y < 10; y++)
-                        {
-                            double[] result = harrisHawks.Solve();
-
-                            for (int i = 0; i < result.Length; i++)
+                            for (int y = 0; y < 10; y++)
                             {
-                                Console.WriteLine(result[i]);
+                                double[] result = harrisHawks.Solve();
+
+                                for (int i = 0; i < result.Length; i++)
+                                {
+                                    Console.WriteLine(result[i]);
 
 
+                                }
+
+                                dataX[y] = result[0];
+                                dataY[y] = result[1];
+                                dataF[y] = result[2];
                             }
 
-                            dataX[y] = result[0];
-                            dataY[y] = result[1];
-                            dataF[y] = result[2];
-                        }
-
-                        //obliczanie odchylenia standardowego, wspólczynika odchylenia standardowego
-                        double standardDeviationX = Statistics.StandardDeviation(dataX);
-                        double meanX = Statistics.Mean(dataX);
-                        double standardDeviationY = Statistics.StandardDeviation(dataY);
-                        double meanY = Statistics.Mean(dataY);
-                        double standardDeviationF = Statistics.StandardDeviation(dataF);
-                        double meanF = Statistics.Mean(dataF);
+                            //obliczanie odchylenia standardowego, wspólczynika odchylenia standardowego
+                            double standardDeviationX = Statistics.StandardDeviation(dataX);
+                            double meanX = Statistics.Mean(dataX);
+                            double standardDeviationY = Statistics.StandardDeviation(dataY);
+                            double meanY = Statistics.Mean(dataY);
+                            double standardDeviationF = Statistics.StandardDeviation(dataF);
+                            double meanF = Statistics.Mean(dataF);
 
 
-                        //wybranie najmniejszej funkcji celu wraz jej X i Y
-                        double minValue = double.MaxValue;
-                        int minIndex = -1;
+                            //wybranie najmniejszej funkcji celu wraz jej X i Y
+                            double minValue = double.MaxValue;
+                            int minIndex = -1;
 
-                        for (int i = 0; i < dataF.Length; i++)
-                        {
-                            if (dataF[i] < minValue)
+                            for (int i = 0; i < dataF.Length; i++)
                             {
-                                minValue = dataF[i];
-                                minIndex = i;
+                                if (dataF[i] < minValue)
+                                {
+                                    minValue = dataF[i];
+                                    minIndex = i;
+                                }
                             }
-                        }
 
-
-
-                        //zapis do pliku  
-                        try
-                        {
                             if (meanF == 0)
                             {
                                 meanF = 1;
@@ -191,44 +191,41 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 meanY = 1;
                             }
-                            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                            string fileName = "test.csv";
-                            string filePath = Path.Combine(desktopPath, fileName);
+                            table.Add(new TableOfResults
+                            {
+                                Algorithm = "HHO",
+                                TestFunction = f1.ToString(),
+                                NumberOfParameters = 1,
+                                Parameters = B,
+                                Iterator = T,
+                                Size = N,
+                                Minimum = dataX[minIndex] + ", " + dataY[minIndex],
+                                StandartDeviationForParameters = standardDeviationX + ", " + standardDeviationY,
+                                VariationCoefficientForParameter = (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY),
+                                ObjectiveFunction = dataF[minIndex].ToString(),
+                                StandartDeviationForFunction = standardDeviationF.ToString(),
+                                VariationCoefficientForFunction = (standardDeviationF / meanF).ToString()
+                            });
 
-                            StreamWriter sw = new StreamWriter(filePath);
-
-                            sw.WriteLine("Funkcja testowa: Sphere");
-                            sw.WriteLine("Paramter beta: " + 1.5);
-                            sw.WriteLine("Rozmiar populacji: " + 10);
-                            sw.WriteLine("Liczba iteracji: " + 20);
-
-                            sw.WriteLine("Odchylenie standardowe poszukiwanych parametrów: " + standardDeviationX + ", " + standardDeviationY);
-                            sw.WriteLine("Odchylenie standardowe wartości funkcji celu: " + standardDeviationF);
-
-                            sw.WriteLine("Współczynnik zmienności poszukiwanych parametrów: " + (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY));
-                            sw.WriteLine("Współczynnik zmienności wartości funkcji celu: " + (standardDeviationF / meanF));
-
-
-                            sw.WriteLine("Wartość funkcji celu: " + dataF[minIndex]);
-                            sw.WriteLine("Znalezione minimum: " + dataX[minIndex] + ", " + dataY[minIndex]);
-                            sw.Close();
                         }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Exception: " + e.Message);
-                        }
-                        finally
-                        {
-                            Console.WriteLine("Executing finally block.");
-                        }
+                    }
+                }
+            }
 
-
-
-
-
-            }   }   }   }
-
-
+            //zapis do pliku  
+            try
+            {
+                var save = new SaveToCSV();
+                save.Save(filePath, table);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Executing finally block.");
+            }
         }
 
     }
