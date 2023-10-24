@@ -12,8 +12,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
     public class main
     {
-        delegate double Funkcja1(params double[] X);
-        Funkcja1 f;
+       
 
 
         public static double rastriginFunction(params double[] X)
@@ -29,6 +28,20 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
             return 10 * D + sum;
 
+        }
+
+        public static double sphereFunction(params double[] X)
+        {
+
+            double sum = 0;
+            int D = X.Length;
+            for (int i = 0; i < D; i++)
+            {
+                double xi = X[i];
+                sum += xi * xi;
+            }
+
+            return sum;
         }
 
         public static double rosenbrockFunction(params double[] X)
@@ -48,19 +61,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
         }
 
-        public static double sphereFunction(params double[] X)
-        {
 
-            double sum = 0;
-            int D = X.Length;
-            for (int i = 0; i < D; i++)
-            {
-                double xi = X[i];
-                sum += xi * xi;
-            }
-
-            return sum;
-        }
 
         public static double bealeFunction(params double[] X)
         {
@@ -102,105 +103,130 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
         static void Main(string[] args)
         {
-            Double[] X = { -2.3, 4.3 };
-            Double[] Y = { 2.3, -4.3 };
+            Double[,] FunctionsX = { { -2.3, 4.3 }, { -10, 10 }, { -4.5, 4.5 }, { -15, 5 }, { -5, 5 } };
+            Double[,] FunctionsY = { { 2.3, -4.3 }, { -10, 10 }, { -4.5, 4.5 }, { -3, 3 }, { -5, 5 } };
 
+            List<Funkcja1> functions = new List<Funkcja1> { sphereFunction, rosenbrockFunction, bealeFunction, bukinFunctionN6, himmelblauFunctionN6 };
+            Double[] Beta = { 0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
+            int[] SizeN = { 10, 20, 40, 80, 100 };
+            int[] iterationT = { 5, 10, 20, 40, 60, 80, 100 };
+            int f = 0;
 
-                                                     //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar     
-            HarrisHawks harrisHawks = new HarrisHawks(sphereFunction, 10, X, Y, 20, 2, 1.5);
-
-            Double[] dataX = new double[10];
-            Double[] dataY = new double[10];
-            Double[] dataF = new double[10];
-
-            for (int y = 0; y < 10; y++)
+            foreach(Funkcja1 f1 in functions)
             {
-                double[] result = harrisHawks.Solve();
+                Double[] X = { FunctionsX[f, 0], FunctionsX[f, 1] };
+                Double[] Y = { FunctionsY[f, 0], FunctionsY[f, 1] };
+                f++;
 
-                for (int i = 0; i < result.Length; i++)
-                {
-                    Console.WriteLine(result[i]);
-                    
+               foreach(int N in SizeN)
+                { 
 
-                }
+                    foreach(int T in iterationT)
+                    { 
 
-                dataX[y] = result[0];
-                dataY[y] = result[1];
-                dataF[y] = result[2];
-            }
-
-            //obliczanie odchylenia standardowego, wspólczynika odchylenia standardowego
-            double standardDeviationX = Statistics.StandardDeviation(dataX);
-            double meanX = Statistics.Mean(dataX);
-            double standardDeviationY = Statistics.StandardDeviation(dataY);
-            double meanY = Statistics.Mean(dataY);
-            double standardDeviationF = Statistics.StandardDeviation(dataF);
-            double meanF = Statistics.Mean(dataF);
-
-
-            //wybranie najmniejszej funkcji celu wraz jej X i Y
-            double minValue = double.MaxValue;
-            int minIndex = -1;
-
-            for (int i = 0; i < dataF.Length; i++)
-            {
-                if (dataF[i] < minValue)
-                {
-                    minValue = dataF[i];
-                    minIndex = i;
-                }
-            }
-
-           
-
-            //zapis do pliku  
-            try
-            {
-                if(meanF ==0)
-                {
-                    meanF = 1;
-                }
-                if (meanX == 0)
-                {
-                    meanX = 1;
-                }
-                if (meanY == 0)
-                {
-                    meanY = 1;
-                }
-                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string fileName = "test.csv";
-                string filePath = Path.Combine(desktopPath, fileName);
-
-                StreamWriter sw = new StreamWriter(filePath);
-
-                sw.WriteLine("Funkcja testowa: Sphere");
-                sw.WriteLine("Paramter beta: "+ 1.5);
-                sw.WriteLine("Rozmiar populacji: "+10);
-                sw.WriteLine("Liczba iteracji: " +20);
-
-                sw.WriteLine("Odchylenie standardowe poszukiwanych parametrów: " + standardDeviationX+", "+ standardDeviationY);
-                sw.WriteLine("Odchylenie standardowe wartości funkcji celu: " + standardDeviationF);
-
-                sw.WriteLine("Współczynnik zmienności poszukiwanych parametrów: " + (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY));
-                sw.WriteLine("Współczynnik zmienności wartości funkcji celu: " + (standardDeviationF / meanF));
-
-
-                sw.WriteLine("Wartość funkcji celu: " + dataF[minIndex]);
-                sw.WriteLine("Znalezione minimum: " + dataX[minIndex] + ", " + dataY[minIndex]);
-                sw.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Executing finally block.");
-            }
+                        foreach(Double B in Beta)
+                        { 
 
 
 
+                            //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar , beta    
+                            HarrisHawks harrisHawks = new HarrisHawks(f1, N, X, Y, T, 2, B);
+
+                        Double[] dataX = new double[10];
+                        Double[] dataY = new double[10];
+                        Double[] dataF = new double[10];
+
+                        for (int y = 0; y < 10; y++)
+                        {
+                            double[] result = harrisHawks.Solve();
+
+                            for (int i = 0; i < result.Length; i++)
+                            {
+                                Console.WriteLine(result[i]);
+
+
+                            }
+
+                            dataX[y] = result[0];
+                            dataY[y] = result[1];
+                            dataF[y] = result[2];
+                        }
+
+                        //obliczanie odchylenia standardowego, wspólczynika odchylenia standardowego
+                        double standardDeviationX = Statistics.StandardDeviation(dataX);
+                        double meanX = Statistics.Mean(dataX);
+                        double standardDeviationY = Statistics.StandardDeviation(dataY);
+                        double meanY = Statistics.Mean(dataY);
+                        double standardDeviationF = Statistics.StandardDeviation(dataF);
+                        double meanF = Statistics.Mean(dataF);
+
+
+                        //wybranie najmniejszej funkcji celu wraz jej X i Y
+                        double minValue = double.MaxValue;
+                        int minIndex = -1;
+
+                        for (int i = 0; i < dataF.Length; i++)
+                        {
+                            if (dataF[i] < minValue)
+                            {
+                                minValue = dataF[i];
+                                minIndex = i;
+                            }
+                        }
+
+
+
+                        //zapis do pliku  
+                        try
+                        {
+                            if (meanF == 0)
+                            {
+                                meanF = 1;
+                            }
+                            if (meanX == 0)
+                            {
+                                meanX = 1;
+                            }
+                            if (meanY == 0)
+                            {
+                                meanY = 1;
+                            }
+                            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            string fileName = "test.csv";
+                            string filePath = Path.Combine(desktopPath, fileName);
+
+                            StreamWriter sw = new StreamWriter(filePath);
+
+                            sw.WriteLine("Funkcja testowa: Sphere");
+                            sw.WriteLine("Paramter beta: " + 1.5);
+                            sw.WriteLine("Rozmiar populacji: " + 10);
+                            sw.WriteLine("Liczba iteracji: " + 20);
+
+                            sw.WriteLine("Odchylenie standardowe poszukiwanych parametrów: " + standardDeviationX + ", " + standardDeviationY);
+                            sw.WriteLine("Odchylenie standardowe wartości funkcji celu: " + standardDeviationF);
+
+                            sw.WriteLine("Współczynnik zmienności poszukiwanych parametrów: " + (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY));
+                            sw.WriteLine("Współczynnik zmienności wartości funkcji celu: " + (standardDeviationF / meanF));
+
+
+                            sw.WriteLine("Wartość funkcji celu: " + dataF[minIndex]);
+                            sw.WriteLine("Znalezione minimum: " + dataX[minIndex] + ", " + dataY[minIndex]);
+                            sw.Close();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Exception: " + e.Message);
+                        }
+                        finally
+                        {
+                            Console.WriteLine("Executing finally block.");
+                        }
+
+
+
+
+
+            }   }   }   }
 
 
         }
