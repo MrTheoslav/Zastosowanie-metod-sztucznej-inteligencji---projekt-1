@@ -49,7 +49,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
             double sum = 0;
             int D = X.Length;
-            for (int i = 0; i < D; i++)
+            for (int i = 0; i < D-1; i++)
             {
 
                 double xi = X[i];
@@ -110,12 +110,16 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             Double[] Beta = { 0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
             int[] SizeN = { 10, 20, 40, 80, 100 };
             int[] iterationT = { 5, 10, 20, 40, 60, 80, 100 };
+            
             int f = 0;
+            
+
 
             foreach(Funkcja1 f1 in functions)
             {
                 Double[] X = { FunctionsX[f, 0], FunctionsX[f, 1] };
                 Double[] Y = { FunctionsY[f, 0], FunctionsY[f, 1] };
+                Console.WriteLine(f);
                 f++;
 
                foreach(int N in SizeN)
