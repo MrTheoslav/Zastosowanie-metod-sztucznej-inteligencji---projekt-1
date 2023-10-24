@@ -20,6 +20,8 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         private int T { get; set; }
         private int D { get; set; }
 
+        private double beta {  get; set; }
+
 
         public string Name { get; set; }
         public double[] XBest { get; set; }
@@ -27,9 +29,9 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         public int NumberOfEvaluationFitnessFunction { get; set; }
 
         public double[,] Rabbits { get; set; }
+        double[] functionRabitts { get  ; set; }
 
-
-        public HarrisHawks(Funkcja1 _funkcja2, int _N, double[] _limitX1, double[] _limitX2, int _T, int _D)
+        public HarrisHawks(Funkcja1 _funkcja2, int _N, double[] _limitX1, double[] _limitX2, int _T, int _D, double beta)
         {
             this.funkcja2 = _funkcja2;
             this.N = _N;
@@ -39,6 +41,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             this.D = _D;
             this.XBest = new double[D+1];
             this.Rabbits = new double[T, D];
+            this.functionRabitts = new double[T];
             // funkcja1 jest funkcja dla ktorej nalezy znalezc wartosc minimalna
             // N jest liczba jastrzebi
             // limitX1/2 i limitY1/2 oznaczają dziedzine z zakresu ktorej losowane sa pozycje jastrzebi
@@ -50,7 +53,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         public double LF()
         {
             Random rnd = new Random();
-            double beta = 1.5;
+            
             double delta = Math.Pow((((alglib.gammafunction(1 + beta)) * Math.Sin(Math.PI * beta / 2.0))) / (alglib.gammafunction((1 + beta) / 2) * beta * Math.Pow(2, ((beta - 1) / 2))), (1 / beta));
 
             double u = rnd.NextDouble();
@@ -374,17 +377,45 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                 {
                     for (int ind = 0; ind < D; ind++)
                     {
-                        populationX[hawkNum, ind] = populationX1_tmp[hawkNum, ind];
+                        populationX[hawkNum, ind] = populationX1_tmp[hawkNum, ind];                
                     }
+                }
+
+                //Zapisanie wszytkich królików z iteracji
+                for(int i =0; i < D; i++)
+                {
+                    Rabbits[t, i] = xRabbit[i];
+                    Console.WriteLine(Rabbits[t, i]);
+                }
+                
+                functionRabitts[t] = funkcja2(xRabbit);
+                Console.WriteLine(functionRabitts[t]);
+
+            }
+
+
+            //wybór najlepszego królika z wykonanych iteracji
+            double minimum = functionRabitts[0];
+            int indexMin = 0;
+
+            for (int i = 0; i < functionRabitts.Length; i++)
+            {
+                double element = functionRabitts[i];
+                if (Math.Abs(element) < Math.Abs(minimum))
+                {
+                    minimum = element;
+                    indexMin = i;
                 }
             }
 
+
+
             for (int a = 0; a < D; a++)
             {
-                XBest[a] = xRabbit[a];
+                XBest[a] = Rabbits[indexMin,a];
 
             }
-            XBest[D]=funkcja2(xRabbit);
+            XBest[D]= minimum;
 
 
 

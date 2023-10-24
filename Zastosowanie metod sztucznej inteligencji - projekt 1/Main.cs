@@ -93,12 +93,21 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             return Math.Pow(x * x + y - 11, 2) + Math.Pow(x + y * y - 7, 2);
 
         }
+
+
+
+
+
+
+
         static void Main(string[] args)
         {
             Double[] X = { -2.3, 4.3 };
             Double[] Y = { 2.3, -4.3 };
+
+
                                                      //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar     
-            HarrisHawks harrisHawks = new HarrisHawks(sphereFunction, 10, X, Y, 20, 2);
+            HarrisHawks harrisHawks = new HarrisHawks(sphereFunction, 10, X, Y, 20, 2, 1.5);
 
             Double[] dataX = new double[10];
             Double[] dataY = new double[10];
@@ -120,6 +129,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                 dataF[y] = result[2];
             }
 
+            //obliczanie odchylenia standardowego, wspólczynika odchylenia standardowego
             double standardDeviationX = Statistics.StandardDeviation(dataX);
             double meanX = Statistics.Mean(dataX);
             double standardDeviationY = Statistics.StandardDeviation(dataY);
@@ -128,7 +138,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             double meanF = Statistics.Mean(dataF);
 
 
-
+            //wybranie najmniejszej funkcji celu wraz jej X i Y
             double minValue = double.MaxValue;
             int minIndex = -1;
 
@@ -143,11 +153,26 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
            
 
-
+            //zapis do pliku  
             try
             {
-                
-                StreamWriter sw = new StreamWriter("C:\\Users\\Pumpel\\Desktop\\wyniki.txt");
+                if(meanF ==0)
+                {
+                    meanF = 1;
+                }
+                if (meanX == 0)
+                {
+                    meanX = 1;
+                }
+                if (meanY == 0)
+                {
+                    meanY = 1;
+                }
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string fileName = "test.csv";
+                string filePath = Path.Combine(desktopPath, fileName);
+
+                StreamWriter sw = new StreamWriter(filePath);
 
                 sw.WriteLine("Funkcja testowa: Sphere");
                 sw.WriteLine("Paramter beta: "+ 1.5);
@@ -173,6 +198,10 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             {
                 Console.WriteLine("Executing finally block.");
             }
+
+
+
+
 
         }
 
