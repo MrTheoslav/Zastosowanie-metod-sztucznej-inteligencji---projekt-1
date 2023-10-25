@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,12 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
         {
             try
             {
+              
                 using (var writer = new StreamWriter(filePath))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
                     csv.WriteRecords(table);
+
                 }
             }
             catch (Exception e)

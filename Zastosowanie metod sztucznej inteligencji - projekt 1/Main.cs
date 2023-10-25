@@ -103,114 +103,118 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             Double[,] FunctionsX = { { -2.3, 4.3 }, { -10, 10 }, { -4.5, 4.5 }, { -15, 5 }, { -5, 5 } };
             Double[,] FunctionsY = { { 2.3, -4.3 }, { -10, 10 }, { -4.5, 4.5 }, { -3, 3 }, { -5, 5 } };
 
-            List<Funkcja1> functions = new List<Funkcja1> { sphereFunction, rosenbrockFunction, bealeFunction, bukinFunctionN6, himmelblauFunctionN6 };
-            List<string> nameOfFunction = new List<string>{   "sphereFunction","rosenbrockFunction", "bealeFunction", "bukinFunctionN6", "himmelblauFunctionN6"};
-            Double[] Beta = { 0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
-            int[] SizeN = { 10, 20, 40, 80, 100 };
-            int[] iterationT = { 5, 10, 20, 40, 60, 80, 100 };
-
+            List<Funkcja1> functions = new List<Funkcja1> { sphereFunction, rosenbrockFunction};
+            List<string> nameOfFunction = new List<string>{   "sphereFunction","rosenbrockFunction"};
+            Double[] Beta = { 0.1,0.3, 0.6, 1.0, 1.2, 1.4, 1.5, 1.6 };
+            int[] SizeN = { 10, 20, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000 };
+            int[] iterationT = { 5, 10, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400, 500 };
+            int[] Dimension = { 2, 3, 4, 5, 6, 7, 8, 9, 10 };  
             int f = 0;
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fileName = "wyniki.csv";
             string filePath = Path.Combine(desktopPath, fileName);
             var table = new List<TableOfResults>();
 
-
-            foreach (Funkcja1 f1 in functions)
+            foreach (int D in Dimension)
             {
 
-             
-                Double[] X = { FunctionsX[f, 0], FunctionsX[f, 1] };
-                Double[] Y = { FunctionsY[f, 0], FunctionsY[f, 1] };
-                Console.WriteLine(f);
-                string name = nameOfFunction[f];
-                f++;
-
-
-                foreach (int N in SizeN)
+                foreach (Funkcja1 f1 in functions)
                 {
 
-                    foreach (int T in iterationT)
+
+                    Double[] X = { FunctionsX[f, 0], FunctionsX[f, 1] };
+                    Double[] Y = { FunctionsY[f, 0], FunctionsY[f, 1] };
+                    Console.WriteLine(f);
+                    string name = nameOfFunction[f];
+                    f++;
+
+
+                    foreach (int N in SizeN)
                     {
 
-                        foreach (Double B in Beta)
+                        foreach (int T in iterationT)
                         {
 
-
-
-                            //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar , beta    
-                            HarrisHawks harrisHawks = new HarrisHawks(f1, N, X, Y, T, 2, B);
-
-                            Double[] dataX = new double[10];
-                            Double[] dataY = new double[10];
-                            Double[] dataF = new double[10];
-
-                            for (int y = 0; y < 10; y++)
+                            foreach (Double B in Beta)
                             {
-                                double[] result = harrisHawks.Solve();
 
-                                for (int i = 0; i < result.Length; i++)
+
+
+                                //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar , beta    
+                                HarrisHawks harrisHawks = new HarrisHawks(f1, N, X, Y, T, 2, B);
+
+                                Double[] dataX = new double[10];
+                                Double[] dataY = new double[10];
+                                Double[] dataF = new double[10];
+
+                                for (int y = 0; y < 10; y++)
                                 {
-                                    Console.WriteLine(result[i]);
+                                    double[] result = harrisHawks.Solve();
+
+                                    for (int i = 0; i < result.Length; i++)
+                                    {
+                                        Console.WriteLine(result[i]);
 
 
+                                    }
+
+                                    dataX[y] = result[0];
+                                    dataY[y] = result[1];
+                                    dataF[y] = result[2];
                                 }
 
-                                dataX[y] = result[0];
-                                dataY[y] = result[1];
-                                dataF[y] = result[2];
-                            }
-
-                            //obliczanie odchylenia standardowego, wspólczynika odchylenia standardowego
-                            double standardDeviationX = Statistics.StandardDeviation(dataX);
-                            double meanX = Statistics.Mean(dataX);
-                            double standardDeviationY = Statistics.StandardDeviation(dataY);
-                            double meanY = Statistics.Mean(dataY);
-                            double standardDeviationF = Statistics.StandardDeviation(dataF);
-                            double meanF = Statistics.Mean(dataF);
+                                //obliczanie odchylenia standardowego, wspólczynika odchylenia standardowego
+                                double standardDeviationX = Statistics.StandardDeviation(dataX);
+                                double meanX = Statistics.Mean(dataX);
+                                double standardDeviationY = Statistics.StandardDeviation(dataY);
+                                double meanY = Statistics.Mean(dataY);
+                                double standardDeviationF = Statistics.StandardDeviation(dataF);
+                                double meanF = Statistics.Mean(dataF);
 
 
-                            //wybranie najmniejszej funkcji celu wraz jej X i Y
-                            double minValue = double.MaxValue;
-                            int minIndex = -1;
+                                //wybranie najmniejszej funkcji celu wraz jej X i Y
+                                double minValue = double.MaxValue;
+                                int minIndex = -1;
 
-                            for (int i = 0; i < dataF.Length; i++)
-                            {
-                                if (dataF[i] < minValue)
+                                for (int i = 0; i < dataF.Length; i++)
                                 {
-                                    minValue = dataF[i];
-                                    minIndex = i;
+                                    if (dataF[i] < minValue)
+                                    {
+                                        minValue = dataF[i];
+                                        minIndex = i;
+                                    }
                                 }
-                            }
 
-                            if (meanF == 0)
-                            {
-                                meanF = 1;
-                            }
-                            if (meanX == 0)
-                            {
-                                meanX = 1;
-                            }
-                            if (meanY == 0)
-                            {
-                                meanY = 1;
-                            }
-                            table.Add(new TableOfResults
-                            {
-                                Algorithm = "HHO",
-                                TestFunction = name,
-                                NumberOfParameters = 1,
-                                Parameters = B,
-                                Iterator = T,
-                                Size = N,
-                                Minimum = dataX[minIndex] + ", " + dataY[minIndex],
-                                StandartDeviationForParameters = standardDeviationX + ", " + standardDeviationY,
-                                VariationCoefficientForParameter = (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY),
-                                ObjectiveFunction = dataF[minIndex].ToString(),
-                                StandartDeviationForFunction = standardDeviationF.ToString(),
-                                VariationCoefficientForFunction = (standardDeviationF / meanF).ToString()
-                            });
+                                if (meanF == 0)
+                                {
+                                    meanF = 1;
+                                }
+                                if (meanX == 0)
+                                {
+                                    meanX = 1;
+                                }
+                                if (meanY == 0)
+                                {
+                                    meanY = 1;
+                                }
+                                table.Add(new TableOfResults
+                                {
+                                    Algorithm = "HHO",
+                                    TestFunction = name,
+                                    NumberOfParameters = 1,
+                                    Parameters = B,
+                                    Iterator = T,
+                                    Size = N,
+                                    Minimum_X_Y = dataX[minIndex] + ", " + dataY[minIndex],
+                                    StandartDeviationForParameters = standardDeviationX + ", " + standardDeviationY,
+                                    VariationCoefficientForParameter = (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY),
+                                    ObjectiveFunction = dataF[minIndex].ToString(),
+                                    StandartDeviationForFunction = standardDeviationF.ToString(),
+                                    VariationCoefficientForFunction = (standardDeviationF / meanF).ToString(),
+                                    Dimension =D,
+                                });
 
+                            }
                         }
                     }
                 }

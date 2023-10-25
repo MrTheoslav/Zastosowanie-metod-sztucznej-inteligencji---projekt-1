@@ -8,11 +8,12 @@
         public double Parameters { get; set; }
         public int Iterator { get; set; }
         public int Size { get; set; }
-        public string Minimum { get; set; }
+        public string Minimum_X_Y { get; set; }
         public string StandartDeviationForParameters { get; set; }
         public string VariationCoefficientForParameter {  get; set; }
         public string ObjectiveFunction { get; set; }
         public string StandartDeviationForFunction { get; set; }
         public string VariationCoefficientForFunction { get;set; }
+        public int Dimension {  get; set; }
     }
 }
