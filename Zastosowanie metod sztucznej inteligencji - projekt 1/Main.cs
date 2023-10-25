@@ -195,45 +195,42 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             {
                                 meanY = 1;
                             }
-                            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                            string fileName = "test.csv";
-                            string filePath = Path.Combine(desktopPath, fileName);
+                                table.Add(new TableOfResults
+                                {
+                                    Algorithm = "HHO",
+                                    TestFunction = f1.ToString(),
+                                    NumberOfParameters = 1,
+                                    Parameters = B,
+                                    Iterator = T,
+                                    Size = N,
+                                    Minimum = dataX[minIndex] + ", " + dataY[minIndex],
+                                    StandartDeviationForParameters = standardDeviationX + ", " + standardDeviationY,
+                                    VariationCoefficientForParameter = (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY),
+                                    ObjectiveFunction = dataF[minIndex].ToString(),
+                                    StandartDeviationForFunction = standardDeviationF.ToString(),
+                                    VariationCoefficientForFunction = (standardDeviationF / meanF).ToString()
+                                });
 
-                            StreamWriter sw = new StreamWriter(filePath);
+                            }
+                    }
+                    }
+                }
 
-                            sw.WriteLine("Funkcja testowa: Sphere");
-                            sw.WriteLine("Paramter beta: " + 1.5);
-                            sw.WriteLine("Rozmiar populacji: " + 10);
-                            sw.WriteLine("Liczba iteracji: " + 20);
-
-                            sw.WriteLine("Odchylenie standardowe poszukiwanych parametrów: " + standardDeviationX + ", " + standardDeviationY);
-                            sw.WriteLine("Odchylenie standardowe wartości funkcji celu: " + standardDeviationF);
-
-                            sw.WriteLine("Współczynnik zmienności poszukiwanych parametrów: " + (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY));
-                            sw.WriteLine("Współczynnik zmienności wartości funkcji celu: " + (standardDeviationF / meanF));
-
-
-                            sw.WriteLine("Wartość funkcji celu: " + dataF[minIndex]);
-                            sw.WriteLine("Znalezione minimum: " + dataX[minIndex] + ", " + dataY[minIndex]);
-                            sw.Close();
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Exception: " + e.Message);
-                        }
-                        finally
-                        {
-                            Console.WriteLine("Executing finally block.");
-                        }
-
-
-
-
-
-            }   }   }   }
-
+                //zapis do pliku  
+                try
+                {
+                    var save = new SaveToCSV();
+                    save.Save(filePath, table);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception: " + e.Message);
+                }
+                finally
+                {
+                    Console.WriteLine("Executing finally block.");
+                }
+            }
 
         }
-
     }
-}
