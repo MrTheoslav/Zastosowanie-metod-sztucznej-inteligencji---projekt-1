@@ -12,9 +12,6 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
     public class main
     {
-
-
-
         public static double rastriginFunction(params double[] X)
         {
 
@@ -107,18 +104,24 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             Double[,] FunctionsY = { { 2.3, -4.3 }, { -10, 10 }, { -4.5, 4.5 }, { -3, 3 }, { -5, 5 } };
 
             List<Funkcja1> functions = new List<Funkcja1> { sphereFunction, rosenbrockFunction, bealeFunction, bukinFunctionN6, himmelblauFunctionN6 };
+            List<string> nameOfFunction = new List<string>
+            {   "sphereFunction","rosenbrockFunction", "bealeFunction", "bukinFunctionN6", "himmelblauFunctionN6"
+
+            };
             Double[] Beta = { 0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
             int[] SizeN = { 10, 20, 40, 80, 100 };
             int[] iterationT = { 5, 10, 20, 40, 60, 80, 100 };
-            
+
             int f = 0;
 
-            foreach(Funkcja1 f1 in functions)
+            foreach (Funkcja1 f1 in functions)
             {
                 Double[] X = { FunctionsX[f, 0], FunctionsX[f, 1] };
                 Double[] Y = { FunctionsY[f, 0], FunctionsY[f, 1] };
                 Console.WriteLine(f);
+                string name = nameOfFunction[f];
                 f++;
+
 
                 foreach (int N in SizeN)
                 {
@@ -191,7 +194,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                             table.Add(new TableOfResults
                             {
                                 Algorithm = "HHO",
-                                TestFunction = f1.ToString(),
+                                TestFunction = name,
                                 NumberOfParameters = 1,
                                 Parameters = B,
                                 Iterator = T,
