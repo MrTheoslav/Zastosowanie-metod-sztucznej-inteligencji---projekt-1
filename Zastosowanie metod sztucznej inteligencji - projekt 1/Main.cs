@@ -106,9 +106,9 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             List<Funkcja1> functions = new List<Funkcja1> { sphereFunction, rosenbrockFunction};
             List<string> nameOfFunction = new List<string>{   "sphereFunction","rosenbrockFunction"};
             Double[] Beta = { 0.1,0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
-            int[] SizeN = { 10, 20, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800 };
-            int[] iterationT = { 5, 10, 20, 40, 60, 80, 100, 150, 200, 250, 300 };
-            int[] Dimension = { 2, 3, 4, 5, 6, 7, 8 };  
+            int[] SizeN = { 10/*, 20, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800*/ };
+            int[] iterationT = { 5/*, 10, 20, 40, 60, 80, 100, 150, 200, 250, 300 */};
+            int[] Dimension = { /*2,*/ 3/*, 4, 5, 6, 7, 8*/ };  
             int f = 0;
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fileName = "wyniki.csv";
@@ -143,9 +143,8 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                 //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar , beta    
                                 HarrisHawks harrisHawks = new HarrisHawks(f1, N, X, Y, T,D, B);
 
-                                Double[] dataX = new double[10];
-                                Double[] dataY = new double[10];
-                                Double[] dataF = new double[10];
+                                Double[,] data = new double[D+1,10];
+
 
                                 for (int y = 0; y < 10; y++)
                                 {
@@ -158,45 +157,80 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
                                     }
 
-                                    dataX[y] = result[0];
-                                    dataY[y] = result[1];
-                                    dataF[y] = result[2];
+                                    for (int i = 0; i < result.Length; i++)
+                                    {
+                                        data[i,y] = result[i];
+                                     
+                                    }
                                 }
 
-                                //obliczanie odchylenia standardowego, wspólczynika odchylenia standardowego
-                                double standardDeviationX = Statistics.StandardDeviation(dataX);
-                                double meanX = Statistics.Mean(dataX);
-                                double standardDeviationY = Statistics.StandardDeviation(dataY);
-                                double meanY = Statistics.Mean(dataY);
-                                double standardDeviationF = Statistics.StandardDeviation(dataF);
-                                double meanF = Statistics.Mean(dataF);
+                                Double[] toDeviation = new Double[10];
+                                string StandartDeviationForParameters="";
+                                string VariationCoefficientForParameter= "";
+                                string StandartDeviationForFunction= "";
+                                string VariationCoefficientForFunction= "";
+
+                                for (int i = 0;i<=D; i++)
+                                {
+                                    for(int j = 0; j < 10; j++)
+                                    {
+                                        toDeviation[j] =data[i, j];
+
+                                    }
+                                    double standardDeviation = Statistics.StandardDeviation(toDeviation);
+                                    double mean = Statistics.Mean(toDeviation);
+                                    if(mean==0)
+                                    {
+                                        mean = 1;
+                                    }
+                                    double variationCoefficient = (standardDeviation / mean);
+
+                                    if(i==D)
+                                    {
+                                        StandartDeviationForFunction =standardDeviation.ToString();
+                                       VariationCoefficientForFunction=variationCoefficient.ToString();
+
+                                    }
+                                    else
+                                    {
+                                        StandartDeviationForParameters += standardDeviation.ToString() + ", ";
+                                        VariationCoefficientForParameter += variationCoefficient.ToString()+", ";
+
+                                    }
+
+
+                                }
+
+
+
+
+                                Double[] toSeekTheBestMinimum = new Double[10];
+
+                                for(int i = 0;i<10;i++)
+                                {
+                                    toSeekTheBestMinimum[i] = data[D,i];
+                                }
 
 
                                 //wybranie najmniejszej funkcji celu wraz jej X i Y
                                 double minValue = double.MaxValue;
                                 int minIndex = -1;
 
-                                for (int i = 0; i < dataF.Length; i++)
+                                for (int i = 0; i < toSeekTheBestMinimum.Length; i++)
                                 {
-                                    if (dataF[i] < minValue)
+                                    if (toSeekTheBestMinimum[i] < minValue)
                                     {
-                                        minValue = dataF[i];
+                                        minValue = toSeekTheBestMinimum[i];
                                         minIndex = i;
                                     }
                                 }
 
-                                if (meanF == 0)
+                                string minimumParametres = "";
+                                for(int i = 0;i<D; i++)
                                 {
-                                    meanF = 1;
+                                    minimumParametres+= data[i, minIndex]+", ";
                                 }
-                                if (meanX == 0)
-                                {
-                                    meanX = 1;
-                                }
-                                if (meanY == 0)
-                                {
-                                    meanY = 1;
-                                }
+                         
                                 table.Add(new TableOfResults
                                 {
                                     Algorithm = "HHO",
@@ -205,12 +239,12 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                     Parameters = B,
                                     Iterator = T,
                                     Size = N,
-                                    Minimum_X_Y = dataX[minIndex] + ", " + dataY[minIndex],
-                                    StandartDeviationForParameters = standardDeviationX + ", " + standardDeviationY,
-                                    VariationCoefficientForParameter = (standardDeviationX / meanX) + ", " + (standardDeviationY / meanY),
-                                    ObjectiveFunction = dataF[minIndex].ToString(),
-                                    StandartDeviationForFunction = standardDeviationF.ToString(),
-                                    VariationCoefficientForFunction = (standardDeviationF / meanF).ToString(),
+                                    Minimum_X_Y = minimumParametres,
+                                    StandartDeviationForParameters =  StandartDeviationForParameters,
+                                    VariationCoefficientForParameter = VariationCoefficientForParameter,
+                                    ObjectiveFunction = data[D,minIndex].ToString(),
+                                    StandartDeviationForFunction = StandartDeviationForFunction,
+                                    VariationCoefficientForFunction = StandartDeviationForFunction,
                                     Dimension =D,
                                 });
 
