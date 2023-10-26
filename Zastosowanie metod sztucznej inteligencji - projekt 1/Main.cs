@@ -100,15 +100,15 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
         static void Main(string[] args)
         {
-            Double[,] FunctionsX = { { -2.3, 4.3 }, { -10, 10 }, { -4.5, 4.5 }, { -15, 5 }, { -5, 5 } };
-            Double[,] FunctionsY = { { 2.3, -4.3 }, { -10, 10 }, { -4.5, 4.5 }, { -3, 3 }, { -5, 5 } };
+            Double[,] FunctionsX = { { -2.3, 4.3 }, { -10, 10 } };
+            Double[,] FunctionsY = { { 2.3, -4.3 }, { -10, 10 } };
 
             List<Funkcja1> functions = new List<Funkcja1> { sphereFunction, rosenbrockFunction};
             List<string> nameOfFunction = new List<string>{   "sphereFunction","rosenbrockFunction"};
-            Double[] Beta = { 0.1,0.3, 0.6, 1.0, 1.2, 1.4, 1.5, 1.6 };
-            int[] SizeN = { 10, 20, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000 };
-            int[] iterationT = { 5, 10, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400, 500 };
-            int[] Dimension = { 2, 3, 4, 5, 6, 7, 8, 9, 10 };  
+            Double[] Beta = { 0.1,0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
+            int[] SizeN = { 10, 20, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800 };
+            int[] iterationT = { 5, 10, 20, 40, 60, 80, 100, 150, 200, 250, 300 };
+            int[] Dimension = { 2, 3, 4, 5, 6, 7, 8 };  
             int f = 0;
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fileName = "wyniki.csv";
@@ -117,7 +117,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
             foreach (int D in Dimension)
             {
-
+                f = 0;
                 foreach (Funkcja1 f1 in functions)
                 {
 
@@ -141,7 +141,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
 
                                 //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar , beta    
-                                HarrisHawks harrisHawks = new HarrisHawks(f1, N, X, Y, T, 2, B);
+                                HarrisHawks harrisHawks = new HarrisHawks(f1, N, X, Y, T,D, B);
 
                                 Double[] dataX = new double[10];
                                 Double[] dataY = new double[10];
