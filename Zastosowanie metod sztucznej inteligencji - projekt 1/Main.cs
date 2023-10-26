@@ -108,7 +108,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             Double[] Beta = { 0.1,0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
             int[] SizeN = { 10, 20, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700 };
             int[] iterationT = { 5, 10, 20, 40, 60, 80, 100, 150, 200, 250, 300 };
-            int[] Dimension = { 2, 3, 4, 5, 6, 7, 8 };  
+            int[] Dimension = { 2, 3, 4, 5, 6, 7 };  
             int f = 0;
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fileName = "wyniki.csv";
