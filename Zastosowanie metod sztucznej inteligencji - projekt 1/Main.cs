@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using MathNet.Numerics.Statistics;
+using MathNet.Numerics.Optimization;
 
 namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
@@ -106,10 +107,10 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
             List<Funkcja1> functions = new List<Funkcja1> { sphereFunction, rosenbrockFunction };
             List<string> nameOfFunction = new List<string> { "sphereFunction", "rosenbrockFunction" };
-            Double[] Beta = { 0.1, 0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
-            int[] SizeN = { 10, 20, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700 };
-            int[] iterationT = { 5, 10, 20, 40, 60, 80, 100, 150, 200, 250, 300 };
-            int[] Dimension = { 2, 3, 4, 5, 6, 7 };
+            Double[] Beta = { 0.1, 0.3/*, 0.6, 1.0, 1.2, 1.4, 1.5 */};
+            int[] SizeN = { 10, 20/*, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700 */};
+            int[] iterationT = { 5, 10/*, 20, 40, 60, 80, 100, 150, 200, 250, 300 */};
+            int[] Dimension = { 2, 3/*, 4, 5, 6, 7 */};
             int f = 0;
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fileName = "wyniki.csv";
@@ -186,19 +187,18 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                     }
                                     double variationCoefficient = (standardDeviation / mean);
 
-                                    if (i == D)
+                                    if (i < D)
                                     {
-                                        StandartDeviationForFunction = standardDeviation.ToString();
-                                        VariationCoefficientForFunction = variationCoefficient.ToString();
+                                        StandartDeviationForParameters += standardDeviation.ToString();
+                                        VariationCoefficientForParameter += variationCoefficient.ToString();
 
+                                        if (i != D - 1)
+                                        {
+                                            StandartDeviationForParameters += ", ";
+                                            VariationCoefficientForParameter += ", ";
+
+                                        }
                                     }
-                                    else
-                                    {
-                                        StandartDeviationForParameters += standardDeviation.ToString() + ", ";
-                                        VariationCoefficientForParameter += variationCoefficient.ToString() + ", ";
-
-                                    }
-
 
                                 }
 
@@ -229,7 +229,10 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                 string minimumParametres = "";
                                 for (int i = 0; i < D; i++)
                                 {
-                                    minimumParametres += data[i, minIndex] + ", ";
+
+                                    minimumParametres += data[i, minIndex];
+                                    if (i != D - 1)
+                                        minimumParametres += ", ";
                                 }
 
                                 table.Add(new TableOfResults
@@ -245,7 +248,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                     VariationCoefficientForParameter = VariationCoefficientForParameter,
                                     ObjectiveFunction = data[D, minIndex].ToString(),
                                     StandartDeviationForFunction = StandartDeviationForFunction,
-                                    VariationCoefficientForFunction = StandartDeviationForFunction,
+                                    VariationCoefficientForFunction = VariationCoefficientForFunction,
                                     Dimension = D,
                                 });
 
