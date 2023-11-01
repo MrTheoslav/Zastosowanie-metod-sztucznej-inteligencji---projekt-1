@@ -15,5 +15,6 @@
         public string StandartDeviationForFunction { get; set; }
         public string VariationCoefficientForFunction { get;set; }
         public int Dimension {  get; set; }
+        public int ParameterForRastrigiFunction { get; set;}
     }
 }

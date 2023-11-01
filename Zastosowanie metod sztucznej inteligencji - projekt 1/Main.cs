@@ -6,12 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using MathNet.Numerics.Statistics;
+using System.Data;
 
 namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 {
 
     public class main
     {
+
+    
+
         public static double rastriginFunction(params double[] X)
         {
 
@@ -26,7 +30,6 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             return 10 * D + sum;
 
         }
-
         public static double sphereFunction(params double[] X)
         {
 
@@ -35,12 +38,11 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             for (int i = 0; i < D; i++)
             {
                 double xi = X[i];
-                sum += xi * xi;
+                sum += (xi-0.5) * (xi-0.5);
             }
 
             return sum;
         }
-
         public static double rosenbrockFunction(params double[] X)
         {
 
@@ -57,9 +59,6 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             return sum;
 
         }
-
-
-
         public static double bealeFunction(params double[] X)
         {
 
@@ -69,7 +68,6 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             return Math.Pow(1.5 - x + x * y, 2) + Math.Pow(2.25 - x + x * y * y, 2) + Math.Pow(2.625 - x + x * y * y * y, 2);
 
         }
-
         public static double bukinFunctionN6(params double[] X)
         {
 
@@ -79,8 +77,6 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             return 100 * Math.Sqrt(Math.Abs(y - 0.01 * x * x)) + 0.01 * Math.Abs(x + 10);
 
         }
-
-
         public static double himmelblauFunctionN6(params double[] X)
         {
 
@@ -100,15 +96,15 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
         static void Main(string[] args)
         {
-            Double[,] FunctionsX = { { -2.3, 4.3 }, { -10, 10 } };
-            Double[,] FunctionsY = { { 2.3, -4.3 }, { -10, 10 } };
+            //dla paramteru 10
+         
 
-            List<Funkcja1> functions = new List<Funkcja1> { sphereFunction, rosenbrockFunction};
-            List<string> nameOfFunction = new List<string>{   "sphereFunction","rosenbrockFunction"};
-            Double[] Beta = { 0.1,0.3, 0.6, 1.0, 1.2, 1.4, 1.5 };
-            int[] SizeN = { 10, 20, 40, 80, 100, 150, 200, 250, 300, 400, 500, 600, 700 };
-            int[] iterationT = { 5, 10, 20, 40, 60, 80, 100, 150, 200, 250, 300 };
-            int[] Dimension = { 2, 3, 4, 5, 6, 7 };  
+            List<Funkcja1> functions = new List<Funkcja1> { rastriginFunction };
+            List<string> nameOfFunction = new List<string>{ "rastriginFunction" };
+            Double[] Beta = {0.1,0.4,0.8,1.2,1.5};
+            int[] SizeN = {10,30,60,100,150,200};
+            int[] iterationT = {5,10,20,40,60,80,100,150,200};
+            int[] Dimension = {2,3,5,8};
             int f = 0;
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fileName = "wyniki.csv";
@@ -117,16 +113,22 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
             foreach (int D in Dimension)
             {
-                f = 0;
+                Double[] Min = new Double[D];
+                Double[] Max = new Double[D];
+                for (int i = 0; i < D; i++)
+                {
+                    Min[i] = -5.12;
+                    Max[i] = 5.12;
+                }
+               
                 foreach (Funkcja1 f1 in functions)
                 {
 
 
-                    Double[] X = { FunctionsX[f, 0], FunctionsX[f, 1] };
-                    Double[] Y = { FunctionsY[f, 0], FunctionsY[f, 1] };
-                    Console.WriteLine(f);
-                    string name = nameOfFunction[f];
-                    f++;
+                    
+                    
+                    string name = nameOfFunction[0];
+                    
 
 
                     foreach (int N in SizeN)
@@ -141,7 +143,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
 
                                 //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar , beta    
-                                HarrisHawks harrisHawks = new HarrisHawks(f1, N, X, Y, T,D, B);
+                                HarrisHawks harrisHawks = new HarrisHawks(f1, N, Min, Max, T,D, B);
 
                                 Double[,] data = new double[D+1,10];
 
@@ -150,12 +152,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                 {
                                     double[] result = harrisHawks.Solve();
 
-                                    for (int i = 0; i < result.Length; i++)
-                                    {
-                                        Console.WriteLine(result[i]);
-
-
-                                    }
+                                  
 
                                     for (int i = 0; i < result.Length; i++)
                                     {
@@ -193,9 +190,17 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                     }
                                     else
                                     {
-                                        StandartDeviationForParameters += standardDeviation.ToString() + ", ";
-                                        VariationCoefficientForParameter += variationCoefficient.ToString()+", ";
+                                        if (i == D - 1)
+                                        {
+                                            StandartDeviationForParameters += standardDeviation.ToString() ;
+                                            VariationCoefficientForParameter += variationCoefficient.ToString() ;
 
+                                        }
+                                        else
+                                        {
+                                            StandartDeviationForParameters += standardDeviation.ToString() + ", ";
+                                            VariationCoefficientForParameter += variationCoefficient.ToString() + ", ";
+                                        }
                                     }
 
 
@@ -228,9 +233,16 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                 string minimumParametres = "";
                                 for(int i = 0;i<D; i++)
                                 {
-                                    minimumParametres+= data[i, minIndex]+", ";
+                                    if (i == D - 1)
+                                    {
+                                        minimumParametres += data[i, minIndex] ;
+                                    }
+                                    else
+                                    {
+                                        minimumParametres += data[i, minIndex] + ", ";
+                                    }
                                 }
-                         
+
                                 table.Add(new TableOfResults
                                 {
                                     Algorithm = "HHO",
@@ -240,13 +252,14 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                     Iterator = T,
                                     Size = N,
                                     Minimum_X_Y = minimumParametres,
-                                    StandartDeviationForParameters =  StandartDeviationForParameters,
+                                    StandartDeviationForParameters = StandartDeviationForParameters,
                                     VariationCoefficientForParameter = VariationCoefficientForParameter,
-                                    ObjectiveFunction = data[D,minIndex].ToString(),
+                                    ObjectiveFunction = data[D, minIndex].ToString(),
                                     StandartDeviationForFunction = StandartDeviationForFunction,
                                     VariationCoefficientForFunction = StandartDeviationForFunction,
-                                    Dimension =D,
-                                });
+                                    Dimension = D,
+                                    ParameterForRastrigiFunction = 0,
+                                }) ;
 
                             }
                         }
