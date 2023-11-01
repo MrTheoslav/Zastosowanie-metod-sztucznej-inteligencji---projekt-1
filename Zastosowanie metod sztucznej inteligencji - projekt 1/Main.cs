@@ -13,9 +13,6 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
     public class main
     {
-
-    
-
         public static double rastriginFunction(params double[] X)
         {
 
@@ -43,6 +40,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
             return sum;
         }
+
         public static double rosenbrockFunction(params double[] X)
         {
 
@@ -59,6 +57,9 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             return sum;
 
         }
+
+
+
         public static double bealeFunction(params double[] X)
         {
 
@@ -68,6 +69,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             return Math.Pow(1.5 - x + x * y, 2) + Math.Pow(2.25 - x + x * y * y, 2) + Math.Pow(2.625 - x + x * y * y * y, 2);
 
         }
+
         public static double bukinFunctionN6(params double[] X)
         {
 
@@ -145,7 +147,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                 //funkcja, wielkość populacji. zakres x, zakres y, ilość iteracji, wymiar , beta    
                                 HarrisHawks harrisHawks = new HarrisHawks(f1, N, Min, Max, T,D, B);
 
-                                Double[,] data = new double[D+1,10];
+                                Double[,] data = new double[D + 1, 10];
 
 
                                 for (int y = 0; y < 10; y++)
@@ -156,53 +158,44 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
                                     for (int i = 0; i < result.Length; i++)
                                     {
-                                        data[i,y] = result[i];
-                                     
+                                        data[i, y] = result[i];
+
                                     }
                                 }
 
                                 Double[] toDeviation = new Double[10];
-                                string StandartDeviationForParameters="";
-                                string VariationCoefficientForParameter= "";
-                                string StandartDeviationForFunction= "";
-                                string VariationCoefficientForFunction= "";
+                                string StandartDeviationForParameters = "";
+                                string VariationCoefficientForParameter = "";
+                                string StandartDeviationForFunction = "";
+                                string VariationCoefficientForFunction = "";
 
-                                for (int i = 0;i<=D; i++)
+                                for (int i = 0; i <= D; i++)
                                 {
-                                    for(int j = 0; j < 10; j++)
+                                    for (int j = 0; j < 10; j++)
                                     {
-                                        toDeviation[j] =data[i, j];
+                                        toDeviation[j] = data[i, j];
 
                                     }
                                     double standardDeviation = Statistics.StandardDeviation(toDeviation);
                                     double mean = Statistics.Mean(toDeviation);
-                                    if(mean==0)
+                                    if (mean == 0)
                                     {
                                         mean = 1;
                                     }
                                     double variationCoefficient = (standardDeviation / mean);
 
-                                    if(i==D)
+                                    if (i < D)
                                     {
-                                        StandartDeviationForFunction =standardDeviation.ToString();
-                                       VariationCoefficientForFunction=variationCoefficient.ToString();
+                                        StandartDeviationForParameters += standardDeviation.ToString();
+                                        VariationCoefficientForParameter += variationCoefficient.ToString();
 
                                     }
                                     else
                                     {
-                                        if (i == D - 1)
-                                        {
-                                            StandartDeviationForParameters += standardDeviation.ToString() ;
-                                            VariationCoefficientForParameter += variationCoefficient.ToString() ;
+                                        StandartDeviationForParameters += standardDeviation.ToString() + ", ";
+                                        VariationCoefficientForParameter += variationCoefficient.ToString()+", ";
 
-                                        }
-                                        else
-                                        {
-                                            StandartDeviationForParameters += standardDeviation.ToString() + ", ";
-                                            VariationCoefficientForParameter += variationCoefficient.ToString() + ", ";
-                                        }
                                     }
-
 
                                 }
 
@@ -211,9 +204,9 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
                                 Double[] toSeekTheBestMinimum = new Double[10];
 
-                                for(int i = 0;i<10;i++)
+                                for (int i = 0; i < 10; i++)
                                 {
-                                    toSeekTheBestMinimum[i] = data[D,i];
+                                    toSeekTheBestMinimum[i] = data[D, i];
                                 }
 
 
@@ -231,16 +224,9 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                 }
 
                                 string minimumParametres = "";
-                                for(int i = 0;i<D; i++)
+                                for (int i = 0; i < D; i++)
                                 {
-                                    if (i == D - 1)
-                                    {
-                                        minimumParametres += data[i, minIndex] ;
-                                    }
-                                    else
-                                    {
-                                        minimumParametres += data[i, minIndex] + ", ";
-                                    }
+                                    minimumParametres+= data[i, minIndex]+", ";
                                 }
 
                                 table.Add(new TableOfResults
@@ -257,9 +243,8 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                     ObjectiveFunction = data[D, minIndex].ToString(),
                                     StandartDeviationForFunction = StandartDeviationForFunction,
                                     VariationCoefficientForFunction = StandartDeviationForFunction,
-                                    Dimension = D,
-                                    ParameterForRastrigiFunction = 0,
-                                }) ;
+                                    Dimension =D,
+                                });
 
                             }
                         }
