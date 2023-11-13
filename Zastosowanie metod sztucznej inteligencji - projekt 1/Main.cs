@@ -21,7 +21,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             for (int i = 0; i < D; i++)
             {
                 double xi = X[i];
-                sum += xi * xi - 10 * Math.Cos(2 * Math.PI * xi);
+                sum += (xi) * (xi) - 10 * Math.Cos(2 * Math.PI * (xi));
             }
 
             return 10 * D + sum;
@@ -35,7 +35,7 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
             for (int i = 0; i < D; i++)
             {
                 double xi = X[i];
-                sum += (xi-0.5) * (xi-0.5);
+                sum += (xi) * (xi);
             }
 
             return sum;
@@ -98,16 +98,14 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
         static void Main(string[] args)
         {
-            //dla paramteru 10
-         
+            
 
-            List<Funkcja1> functions = new List<Funkcja1> { rastriginFunction };
-            List<string> nameOfFunction = new List<string>{ "rastriginFunction" };
-            Double[] Beta = {0.1,0.4,0.8,1.2,1.5};
-            int[] SizeN = {10,30,60,100,150,200};
-            int[] iterationT = {5,10,20,40,60,80,100,150,200};
-            int[] Dimension = {2,3,5,8};
-            int f = 0;
+            List<Funkcja1> functions = new List<Funkcja1> { sphereFunction };
+            List<string> nameOfFunction = new List<string>{ "sphereFunction" };
+            Double[] Beta = {0.1,0.3,0.6,1.0,1.2,1.5,1.7};
+            int[] SizeN = {10,20,40,80,100,150,200,250};
+            int[] iterationT = {5,10,20,40,80,100,150,200};
+            int[] Dimension = {2,3,4,5,6,7,8};          
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string fileName = "wyniki.csv";
             string filePath = Path.Combine(desktopPath, fileName);
@@ -115,13 +113,9 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
 
             foreach (int D in Dimension)
             {
-                Double[] Min = new Double[D];
-                Double[] Max = new Double[D];
-                for (int i = 0; i < D; i++)
-                {
-                    Min[i] = -5.12;
-                    Max[i] = 5.12;
-                }
+                Double[] Min = {-5,-5 };
+                Double[] Max = { 5,5};
+              
                
                 foreach (Funkcja1 f1 in functions)
                 {
@@ -183,26 +177,30 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                         mean = 1;
                                     }
                                     double variationCoefficient = (standardDeviation / mean);
-
-                                    if (i < D)
+                                    if (i == D)
                                     {
-                                        StandartDeviationForParameters += standardDeviation.ToString();
-                                        VariationCoefficientForParameter += variationCoefficient.ToString();
-
+                                        StandartDeviationForFunction = standardDeviation.ToString();
+                                        VariationCoefficientForFunction = variationCoefficient.ToString();
                                     }
                                     else
                                     {
-                                        StandartDeviationForParameters += standardDeviation.ToString() + ", ";
-                                        VariationCoefficientForParameter += variationCoefficient.ToString()+", ";
+                                        if (i == D - 1)
+                                        {
+                                            StandartDeviationForParameters += standardDeviation.ToString();
+                                            VariationCoefficientForParameter += variationCoefficient.ToString();
 
+                                        }
+                                        else
+                                        {
+                                            StandartDeviationForParameters += standardDeviation.ToString() + ", ";
+                                            VariationCoefficientForParameter += variationCoefficient.ToString() + ", ";
+                                        }
                                     }
 
                                 }
 
 
-
-
-                                Double[] toSeekTheBestMinimum = new Double[10];
+                                    Double[] toSeekTheBestMinimum = new Double[10];
 
                                 for (int i = 0; i < 10; i++)
                                 {
@@ -226,8 +224,16 @@ namespace Zastosowanie_metod_sztucznej_inteligencji___projekt_1
                                 string minimumParametres = "";
                                 for (int i = 0; i < D; i++)
                                 {
-                                    minimumParametres+= data[i, minIndex]+", ";
+                                    if (i == D - 1)
+                                    {
+                                        minimumParametres += data[i, minIndex];
+                                    }
+                                    else
+                                    {
+                                        minimumParametres += data[i, minIndex] + ", ";
+                                    }
                                 }
+                                Console.WriteLine(minimumParametres);
 
                                 table.Add(new TableOfResults
                                 {
